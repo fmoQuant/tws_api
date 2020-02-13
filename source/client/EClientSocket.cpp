@@ -1,4 +1,4 @@
-﻿/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #include "StdAfx.h"
@@ -17,6 +17,7 @@
 #include <string.h>
 #include <assert.h>
 #include <ostream>
+
 
 const int MIN_SERVER_VER_SUPPORTED    = 38; //all supported server versions are defined in EDecoder.h
 
@@ -53,7 +54,7 @@ void EClientSocket::asyncEConnect(bool val) {
     m_asyncEConnect = val;
 }
 
-bool EClientSocket::eConnect( const char *host, int port, int clientId, bool extraAuth)
+bool EClientSocket::eConnect(const char *host, int port, int clientId, bool extraAuth)
 {
 	if( m_fd == -2) {
 		getWrapper()->error( NO_VALID_ID, FAIL_CREATE_SOCK.code(), FAIL_CREATE_SOCK.msg());
@@ -79,8 +80,12 @@ bool EClientSocket::eConnect( const char *host, int port, int clientId, bool ext
 
 	// try to connect to specified host and port
 	ConnState resState = CS_DISCONNECTED;
-	
+
     return eConnectImpl( clientId, extraAuth, &resState);
+}
+
+bool EClientSocket::eConnect(const char *host, unsigned int port, int clientId) {
+    return eConnect(host, static_cast<int>(port), clientId);
 }
 
 ESocket *EClientSocket::getTransport() {
@@ -157,7 +162,7 @@ bool EClientSocket::eConnectImpl(int clientId, bool extraAuth, ConnState* stateO
 	if( stateOutPt) {
 		*stateOutPt = connState();
 	}
-            
+
     if (!m_asyncEConnect) {
         EReader reader(this, m_pSignal);
 
@@ -287,7 +292,7 @@ void EClientSocket::redirect(const char *host, int port) {
         }
 
         this->setHost(hostNorm);
-        
+
         if (port > 0) {
             this->setPort(port);
         }

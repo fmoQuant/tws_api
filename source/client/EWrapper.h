@@ -1,4 +1,4 @@
-/* Copyright (C) 2018 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
+﻿/* Copyright (C) 2019 Interactive Brokers LLC. All rights reserved. This code is subject to the terms
  * and conditions of the IB API Non-Commercial License or the IB API Commercial License, as applicable. */
 
 #pragma once
@@ -9,6 +9,7 @@
 #include <set>
 #include <map>
 #include <tuple>
+#include <vector>
 #include "CommonDefs.h"
 #include "SoftDollarTier.h"
 #include "DepthMktDataDescription.h"
@@ -104,6 +105,7 @@ enum TickType { BID_SIZE, BID, ASK, ASK_SIZE, LAST, LAST_SIZE,
 				AVG_OPT_VOLUME,
 				DELAYED_LAST_TIMESTAMP,
 				SHORTABLE_SHARES,
+				DELAYED_HALTED,
 				NOT_SET };
 
 typedef std::map<int, std::tuple<std::string, char>> SmartComponentsMap;
